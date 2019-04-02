@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Function:
+ * Function: 注册ZK
  *
  * @author crossoverJie
  *         Date: 2018/8/24 01:37
