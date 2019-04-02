@@ -23,7 +23,7 @@ public class PrintOnlineUsersCommand implements InnerCommand {
 
 
     @Autowired
-    private RouteRequest routeRequest ;
+    private RouteRequest routeRequest;
 
     @Override
     public void process(String msg) {

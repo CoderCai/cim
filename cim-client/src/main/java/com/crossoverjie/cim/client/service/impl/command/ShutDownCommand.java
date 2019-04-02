@@ -26,7 +26,7 @@ public class ShutDownCommand implements InnerCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(ShutDownCommand.class);
 
     @Autowired
-    private RouteRequest routeRequest ;
+    private RouteRequest routeRequest;
 
     @Autowired
     private CIMClient cimClient;
@@ -39,7 +39,7 @@ public class ShutDownCommand implements InnerCommand {
 
 
     @Autowired
-    private ShutDownMsg shutDownMsg ;
+    private ShutDownMsg shutDownMsg;
 
     @Override
     public void process(String msg) {

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 /**
- * Function:
+ * Function: 客户端
  *
  * @author crossoverJie
  * Date: 22/05/2018 14:19
@@ -209,7 +209,7 @@ public class CIMClient {
      * @throws InterruptedException
      */
     public void close() throws InterruptedException {
-        if (channel != null){
+        if (channel != null) {
             channel.close();
         }
     }

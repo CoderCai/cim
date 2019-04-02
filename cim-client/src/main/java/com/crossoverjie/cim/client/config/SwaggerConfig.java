@@ -11,15 +11,16 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
+/**
+ * swagger
+ */
 @Configuration
 @EnableSwagger2
-/** 是否打开swagger **/
 @ConditionalOnExpression("'${swagger.enable}' == 'true'")
 public class SwaggerConfig {
-	
-    
-	@Bean
+
+
+    @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
@@ -28,7 +29,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-	
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("sbc order api")
@@ -38,5 +39,5 @@ public class SwaggerConfig {
                 .version("1.0.0")
                 .build();
     }
-    
+
 }

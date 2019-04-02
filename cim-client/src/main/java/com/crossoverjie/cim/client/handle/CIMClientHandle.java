@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * Function:
  *
  * @author crossoverJie
- *         Date: 16/02/2018 18:09
+ * Date: 16/02/2018 18:09
  * @since JDK 1.8
  */
 @ChannelHandler.Sharable
@@ -32,24 +32,24 @@ public class CIMClientHandle extends SimpleChannelInboundHandler<CIMResponseProt
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CIMClientHandle.class);
 
-    private MsgHandleCaller caller ;
+    private MsgHandleCaller caller;
 
-    private ThreadPoolExecutor threadPoolExecutor ;
+    private ThreadPoolExecutor threadPoolExecutor;
 
-    private ScheduledExecutorService scheduledExecutorService ;
+    private ScheduledExecutorService scheduledExecutorService;
 
-    private ShutDownMsg shutDownMsg ;
+    private ShutDownMsg shutDownMsg;
 
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 
-        if (evt instanceof IdleStateEvent){
-            IdleStateEvent idleStateEvent = (IdleStateEvent) evt ;
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
 
             //LOGGER.info("定时检测服务端是否存活");
 
-            if (idleStateEvent.state() == IdleState.WRITER_IDLE){
+            if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
                 CIMRequestProto.CIMReqProtocol heartBeat = SpringBeanFactory.getBean("heartBeat",
                         CIMRequestProto.CIMReqProtocol.class);
                 ctx.writeAndFlush(heartBeat).addListeners((ChannelFutureListener) future -> {
@@ -57,7 +57,7 @@ public class CIMClientHandle extends SimpleChannelInboundHandler<CIMResponseProt
                         LOGGER.error("IO error,close Channel");
                         future.channel().close();
                     }
-                }) ;
+                });
             }
 
         }
@@ -75,30 +75,30 @@ public class CIMClientHandle extends SimpleChannelInboundHandler<CIMResponseProt
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 
-        if (shutDownMsg == null){
-            shutDownMsg = SpringBeanFactory.getBean(ShutDownMsg.class) ;
+        if (shutDownMsg == null) {
+            shutDownMsg = SpringBeanFactory.getBean(ShutDownMsg.class);
         }
 
         //用户主动退出，不执行重连逻辑
-        if (shutDownMsg.checkStatus()){
+        if (shutDownMsg.checkStatus()) {
             return;
         }
 
-        if (scheduledExecutorService == null){
-            scheduledExecutorService = SpringBeanFactory.getBean("scheduledTask",ScheduledExecutorService.class) ;
+        if (scheduledExecutorService == null) {
+            scheduledExecutorService = SpringBeanFactory.getBean("scheduledTask", ScheduledExecutorService.class);
         }
         LOGGER.info("客户端断开了，重新连接！");
         // TODO: 2019-01-22 后期可以改为不用定时任务，连上后就关闭任务 节省性能。
-        scheduledExecutorService.scheduleAtFixedRate(new ReConnectJob(ctx),0,10, TimeUnit.SECONDS) ;
+        scheduledExecutorService.scheduleAtFixedRate(new ReConnectJob(ctx), 0, 10, TimeUnit.SECONDS);
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CIMResponseProto.CIMResProtocol msg) throws Exception {
 
         //心跳更新时间
-        if (msg.getType() == Constants.CommandType.PING){
+        if (msg.getType() == Constants.CommandType.PING) {
             //LOGGER.info("收到服务端心跳！！！");
-            NettyAttrUtil.updateReaderTime(ctx.channel(),System.currentTimeMillis());
+            NettyAttrUtil.updateReaderTime(ctx.channel(), System.currentTimeMillis());
         }
 
         if (msg.getType() != Constants.CommandType.PING) {
@@ -109,19 +109,17 @@ public class CIMClientHandle extends SimpleChannelInboundHandler<CIMResponseProt
         }
 
 
-
-
-
     }
 
     /**
      * 回调消息
+     *
      * @param msg
      */
     private void callBackMsg(String msg) {
-        threadPoolExecutor = SpringBeanFactory.getBean("callBackThreadPool",ThreadPoolExecutor.class) ;
+        threadPoolExecutor = SpringBeanFactory.getBean("callBackThreadPool", ThreadPoolExecutor.class);
         threadPoolExecutor.execute(() -> {
-            caller = SpringBeanFactory.getBean(MsgHandleCaller.class) ;
+            caller = SpringBeanFactory.getBean(MsgHandleCaller.class);
             caller.getMsgHandleListener().handle(msg);
         });
 
@@ -130,7 +128,7 @@ public class CIMClientHandle extends SimpleChannelInboundHandler<CIMResponseProt
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         //异常时断开连接
-        cause.printStackTrace() ;
-        ctx.close() ;
+        cause.printStackTrace();
+        ctx.close();
     }
 }

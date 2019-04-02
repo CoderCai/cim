@@ -1,6 +1,7 @@
 package com.crossoverjie.cim.common.route.algorithm.random;
 
 import com.crossoverjie.cim.common.route.algorithm.RouteHandle;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 import java.util.List;

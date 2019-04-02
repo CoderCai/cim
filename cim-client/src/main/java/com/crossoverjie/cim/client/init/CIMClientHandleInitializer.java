@@ -11,10 +11,10 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 
 /**
- * Function:
+ * Function: 服务选消息处理类，NIO
  *
  * @author crossoverJie
- *         Date: 23/02/2018 22:47
+ * Date: 23/02/2018 22:47
  * @since JDK 1.8
  */
 public class CIMClientHandleInitializer extends ChannelInitializer<Channel> {

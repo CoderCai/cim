@@ -49,7 +49,7 @@ public class MsgHandler implements MsgHandle {
     private ClientInfo clientInfo;
 
     @Autowired
-    private InnerCommandContext innerCommandContext ;
+    private InnerCommandContext innerCommandContext;
 
     private boolean aiModel = false;
 
@@ -133,7 +133,7 @@ public class MsgHandler implements MsgHandle {
         if (msg.startsWith(":")) {
 
             InnerCommand instance = innerCommandContext.getInstance(msg);
-            instance.process(msg) ;
+            instance.process(msg);
 
             return true;
 
@@ -228,7 +228,7 @@ public class MsgHandler implements MsgHandle {
 
     @Override
     public void closeAIModel() {
-        aiModel = false ;
+        aiModel = false;
     }
 
     private void printAllCommand(Map<String, String> allStatusCode) {

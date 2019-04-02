@@ -29,12 +29,13 @@ public class RouteHandler {
 
     /**
      * 用户下线
+     *
      * @param userInfo
      * @param channel
      * @throws IOException
      */
     public void userOffLine(CIMUserInfo userInfo, NioSocketChannel channel) throws IOException {
-        if (userInfo != null){
+        if (userInfo != null) {
             LOGGER.info("用户[{}]下线", userInfo.getUserName());
             SessionSocketHolder.removeSession(userInfo.getUserId());
             //清除路由关系
