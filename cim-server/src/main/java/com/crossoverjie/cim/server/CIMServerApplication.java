@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.net.InetAddress;
 
 /**
+ * 服务端
  * @author crossoverJie
  */
 @SpringBootApplication
